@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { loginUser, logoutUser } from '../api';
 
 const AuthContext = createContext();
 
@@ -27,7 +26,14 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (credentials) => {
         try {
-            const response = await loginUser(credentials);
+            const res = await fetch("http://localhost:3000/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(credentials)
+            });
+            const response = await res.json();
 
             setToken(response.access_token);
             setUser(response.user);
@@ -43,14 +49,10 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            if (token) {
-                await logoutUser(token);
-            }
-
             setToken(null);
             setUser(null);
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
 
         } catch (error) {
             throw error;
