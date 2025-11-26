@@ -26,14 +26,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (credentials) => {
         try {
-            const res = await fetch("http://localhost:3000/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(credentials)
-            });
-            const response = await res.json();
+            const response = await loginUser(credentials);
 
             setToken(response.access_token);
             setUser(response.user);
@@ -49,6 +42,9 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
+            if (token) {
+                await logoutUser(token);
+            }
             setToken(null);
             setUser(null);
             localStorage.removeItem("token");
