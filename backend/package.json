@@ -1,0 +1,63 @@
+{
+  "name": "blog-backend",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "format": "prettier --write \"**/*.js\"",
+    "build": "tsc -p tsconfig.json",
+    "start": "node -r @babel/register src/main.js",
+    "start:dev": "nodemon --exec node -r @babel/register src/main.js",
+    "migration:generate": "npm run build && node -r dotenv/config ./node_modules/typeorm/cli.js migration:generate -d db/datasource.js",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d ./db/datasource.js",
+    "migration:revert": "node -r dotenv/config ./node_modules/typeorm/cli.js migration:revert -d db/datasource.js",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/core": "^11.0.1",
+    "@nestjs/jwt": "^11.0.1",
+    "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/typeorm": "^11.0.0",
+    "bcryptjs": "^3.0.3",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.2.0",
+    "typeorm": "^0.3.27"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.28.3",
+    "@babel/core": "^7.28.5",
+    "@babel/node": "^7.28.0",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.28.0",
+    "@babel/plugin-proposal-private-methods": "^7.18.6",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-transform-runtime": "7.28.3",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/register": "7.28.3",
+    "@babel/runtime": "7.28.4",
+    "@nestjs/cli": "^11.0.10",
+    "@nestjs/testing": "^11.0.1",
+    "@types/node": "^24.10.1",
+    "jest": "30.2.0",
+    "nodemon": "3.1.10",
+    "prettier": "3.6.2",
+    "supertest": "7.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.js$",
+    "coverageDirectory": "../coverage"
+  }
+}
