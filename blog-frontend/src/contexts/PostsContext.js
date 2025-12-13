@@ -3,7 +3,6 @@ import { fetchPosts, createPost, deletePost } from "../api";
 import { useAuth } from "./AuthContext";
 
 const PostsContext = createContext(null);
-
 export const usePosts = () => useContext(PostsContext);
 
 function postsReducer(state, action) {
