@@ -1,18 +1,10 @@
-const { DataSource } = require('typeorm');
 const { User } = require('./user.entity');
-const { dataSource } = require('../../dist/db/datasource'); 
+const { dataSource } = require('../db/data-source');
 
 const usersProviders = [
   {
-    provide: 'DATA_SOURCE',
-    useFactory: async () => {
-      return dataSource.initialize();
-    },
-  },
-  {
     provide: 'USER_REPOSITORY',
-    useFactory: (dataSource) => dataSource.getRepository(User),
-    inject: ['DATA_SOURCE'],
+    useFactory: () => dataSource.getRepository(User),
   },
 ];
 

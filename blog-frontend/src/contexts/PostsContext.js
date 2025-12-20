@@ -37,6 +37,7 @@ export const PostsProvider = ({ children }) => {
   }, [token]);
 
   const addPost = async (postData) => {
+    console.log("TOKEN:", token);
     const newPost = await createPost(token, postData);
     dispatch({ type: "ADD_POST", payload: newPost });
   };
@@ -47,7 +48,7 @@ export const PostsProvider = ({ children }) => {
   };
 
   return (
-    <PostsContext.Provider value={{ posts, addPost, removePost }}>
+    <PostsContext.Provider value={{ posts, createPost: addPost, removePost  }}>
       {children}
     </PostsContext.Provider>
   );
