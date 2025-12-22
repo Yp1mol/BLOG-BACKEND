@@ -12,6 +12,18 @@ export async function loginUser(credentials) {
   return res.json();
 }
 
+export async function registerUser(data) {
+  const res = await fetch(`${API_URL}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) throw new Error("Register failed");
+  return res.json();
+}
+
+
 export async function logoutUser(token) {
   return fetch(`${API_URL}/auth/logout`, {
     method: "POST",

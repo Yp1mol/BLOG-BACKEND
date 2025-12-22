@@ -26,19 +26,21 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = async (credentials) => {
-        try {
-            const response = await loginUser(credentials);
+        const response = await loginUser(credentials);
+        const token = response.access_token;
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const user = {
+            id: payload.sub,
+            username: payload.username,
+            role: payload.role,
+        };
 
-            setToken(response.access_token);
-            setUser(response.user);
+        setToken(token);
+        setUser(user);
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
 
-            localStorage.setItem('token', response.access_token);
-            localStorage.setItem('user', JSON.stringify(response.user));
-
-            return response;
-        } catch (error) {
-            throw error;
-        }
+        return response;
     };
 
     const logout = async () => {

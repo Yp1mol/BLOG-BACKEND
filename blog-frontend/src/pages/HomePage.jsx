@@ -5,8 +5,12 @@ export default function HomePage() {
     const { posts, removePost } = usePosts();
 
     return (
+        
         <div className="max-w-3xl mx-auto p-6">
             <h1 className="text-3xl font-bold mb-6">Posts</h1>
+            <Link to="/create">
+                <button className="text-blue-500 hover:text-blue-700 border-2 border-blue-500 rounded">Create</button>
+            </Link>
 
             {posts.length === 0 ? (
                 <p className="text-gray-500">No posts</p>
@@ -15,7 +19,7 @@ export default function HomePage() {
                     {posts.map((post) => (
                         <li
                             key={post.id}
-                            className="border rounded-lg p-4 shadow-sm"
+                            className="border-4 border-black rounded-lg p-4 shadow-sm"
                         >
                             <h3 className="text-xl font-semibold mb-2">
                                 {post.title}
@@ -35,7 +39,7 @@ export default function HomePage() {
 
                                 <button
                                     onClick={() => removePost(post.id)}
-                                    className="text-red-500 hover:text-red-700"
+                                    className="text-red-500 hover:text-red-700 border-2 border-red-500 rounded"
                                 >
                                     Delete
                                 </button>
