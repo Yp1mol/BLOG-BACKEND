@@ -34,16 +34,19 @@ export async function logoutUser(token) {
 }
 
 export async function fetchPosts(token) {
+  if (!token) return [];
+
   const res = await fetch(`${API_URL}/posts`, {
     headers: {
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
-  if (!res.ok) throw new Error("Failed to load posts");
+  if (!res.ok) return [];
 
   return res.json();
 }
+
 
 export async function createPost(token, data) {
   const res = await fetch(`${API_URL}/posts`, {
@@ -55,6 +58,18 @@ export async function createPost(token, data) {
     body: JSON.stringify(data),
   });
 
+  return res.json();
+}
+export async function updatePost(token, id, data) {
+  const res = await fetch(`${API_URL}/posts/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  
   return res.json();
 }
 

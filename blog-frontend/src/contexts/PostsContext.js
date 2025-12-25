@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
-import { fetchPosts, createPost, deletePost } from "../api";
+import { fetchPosts, createPost, deletePost, updatePost } from "../api";
 import { useAuth } from "./AuthContext";
 
 const PostsContext = createContext(null);
@@ -12,6 +12,11 @@ function postsReducer(state, action) {
 
     case "ADD_POST":
       return [...state, action.payload];
+
+    case "UPDATE_POST":
+      return state.map(p =>
+        p.id === action.payload.id ? action.payload : p
+      );
 
     case "DELETE_POST":
       return state.filter((p) => p.id !== action.payload);
@@ -26,7 +31,10 @@ export const PostsProvider = ({ children }) => {
   const [posts, dispatch] = useReducer(postsReducer, []);
 
   useEffect(() => {
-    if (!token) return;
+    if (!token) {
+      dispatch({ type: "SET_POSTS", payload: [] });
+      return;
+    }
 
     const load = async () => {
       const data = await fetchPosts(token);
@@ -42,13 +50,19 @@ export const PostsProvider = ({ children }) => {
     dispatch({ type: "ADD_POST", payload: newPost });
   };
 
+  const editPost = async (id, data) => {
+    const updated = await updatePost(token, id, data);
+    dispatch({ type: "UPDATE_POST", payload: updated });
+  };
+
+
   const removePost = async (id) => {
     await deletePost(token, id);
     dispatch({ type: "DELETE_POST", payload: id });
   };
 
   return (
-    <PostsContext.Provider value={{ posts, createPost: addPost, removePost  }}>
+    <PostsContext.Provider value={{ posts, createPost: addPost, removePost, updatePost: editPost }}>
       {children}
     </PostsContext.Provider>
   );

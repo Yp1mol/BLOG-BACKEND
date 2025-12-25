@@ -1,16 +1,35 @@
 import { usePosts } from "../contexts/PostsContext";
 import { Link } from "react-router-dom";
+import { useAuth } from '../contexts/AuthContext';
+import { Navigate } from 'react-router-dom';
 
 export default function HomePage() {
     const { posts, removePost } = usePosts();
 
+    const { user, token, logout } = useAuth();
+    
+    if (!token) {
+        return <Navigate to="/login" replace />;
+    }
     return (
-        
+
         <div className="max-w-3xl mx-auto p-6">
+            <div className="flex items-center gap-4">
+                <span className="font-semibold">{user.username}</span>
+                <button
+                    onClick={logout}
+                    className="text-red-600 hover:underline"
+                >
+                    Logout
+                </button>
+                <button className="text-blue-600 hover:underline">
+                    <Link to="/register">
+                        Register
+                    </Link>
+                </button>
+            </div>
             <h1 className="text-3xl font-bold mb-6">Posts</h1>
-            <Link to="/create">
-                <button className="text-blue-500 hover:text-blue-700 border-2 border-blue-500 rounded">Create</button>
-            </Link>
+
 
             {posts.length === 0 ? (
                 <p className="text-gray-500">No posts</p>
@@ -43,6 +62,9 @@ export default function HomePage() {
                                 >
                                     Delete
                                 </button>
+                                <Link to={`/edit/${post.id}`}>
+                                    <button className="text-green-500 hover:text-green-700 border-2 border-green-500 rounded">Edit</button>
+                                </Link>
                             </div>
                         </li>
                     ))}

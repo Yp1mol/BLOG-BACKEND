@@ -21,7 +21,7 @@ function App() {
         <PostsProvider>
           <Routes>
 
-            <Route path="/" element={<HomePage />} />
+            <Route path="/posts" element={<HomePage />} />
 
             <Route path="/posts/:id" element={<PostPage />} />
 
