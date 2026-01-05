@@ -14,8 +14,13 @@ export default function EditPage() {
   const [title, setTitle] = useState(post?.title || "");
   const [content, setContent] = useState(post?.content || "");
 
-  if (!token) return <Navigate to="/login" replace />;
-  if (!post) return <p className="text-center mt-10 text-red-500">Post not found</p>;
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!post) {
+    return <p className="text-center mt-10 text-red-500">Post not found</p>;
+  }
 
   const submit = async e => {
     e.preventDefault();

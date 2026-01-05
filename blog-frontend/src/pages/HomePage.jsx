@@ -7,7 +7,7 @@ export default function HomePage() {
     const { posts, removePost } = usePosts();
 
     const { user, token, logout } = useAuth();
-    
+
     if (!token) {
         return <Navigate to="/login" replace />;
     }
@@ -15,7 +15,11 @@ export default function HomePage() {
 
         <div className="max-w-3xl mx-auto p-6">
             <div className="flex items-center gap-4">
-                <span className="font-semibold">{user.username}</span>
+                <button className="font-semibold  hover:underline">
+                    <Link to="/profile">
+                        {user.username}
+                    </Link>
+                </button>
                 <button
                     onClick={logout}
                     className="text-red-600 hover:underline"

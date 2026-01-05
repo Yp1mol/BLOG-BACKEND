@@ -48,7 +48,10 @@ export class PostsService {
       relations: ['author'],
     });
 
-    if (!post) throw new NotFoundException('Post not found');
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
     if (post.author.id !== userId) {
       throw new ForbiddenException('Not your post');
     }

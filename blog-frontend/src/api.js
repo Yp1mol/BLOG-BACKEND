@@ -7,7 +7,23 @@ export async function loginUser(credentials) {
     body: JSON.stringify(credentials),
   });
 
-  if (!res.ok) throw new Error("Login failed");
+  if (!res.ok) {
+    throw new Error("Login failed");
+  }
+
+  return res.json();
+}
+
+export async function fetchProfile(token) {
+  const res = await fetch("http://localhost:3001/users/me", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Not authorized");
+  }
 
   return res.json();
 }
@@ -19,10 +35,26 @@ export async function registerUser(data) {
     body: JSON.stringify(data),
   });
 
-  if (!res.ok) throw new Error("Register failed");
+  if (!res.ok) {
+    throw new Error("Register failed");
+  }
+
   return res.json();
 }
 
+export async function updateUsername(token, username) {
+  const res = await fetch(`${API_URL}/users/me`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ username }),
+  });
+
+  if (!res.ok) throw new Error("Fail to update username");
+  return res.json();
+}
 
 export async function logoutUser(token) {
   return fetch(`${API_URL}/auth/logout`, {
@@ -34,7 +66,9 @@ export async function logoutUser(token) {
 }
 
 export async function fetchPosts(token) {
-  if (!token) return [];
+  if (!token) {
+    return [];
+  }
 
   const res = await fetch(`${API_URL}/posts`, {
     headers: {
@@ -42,7 +76,9 @@ export async function fetchPosts(token) {
     },
   });
 
-  if (!res.ok) return [];
+  if (!res.ok) {
+    return [];
+  }
 
   return res.json();
 }
@@ -69,7 +105,7 @@ export async function updatePost(token, id, data) {
     },
     body: JSON.stringify(data),
   });
-  
+
   return res.json();
 }
 
