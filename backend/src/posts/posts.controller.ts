@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Body, Request, UseGuards, Put, Param, Delete } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { AuthGuard } from '../auth/auth.guard';
+import { CreatePostDto } from './dto/post.dto';
+
 @UseGuards(AuthGuard)
 @Controller('posts')
 export class PostsController {
@@ -10,13 +12,18 @@ export class PostsController {
   findAll(@Request() req) {
     return this.postsService.findAllByUser(req.user.sub);
   }
-
+@Get('my')
+findByUser(@Request() req: any) { 
+  const userId = req.user.sub; 
+  
+  return this.postsService.findAllByUser(userId);
+}
   @Post()
   create(
-    @Body() body: { title: string; content: string },
+    @Body() createPostDto: CreatePostDto,
     @Request() req,
   ) {
-    return this.postsService.create(body, req.user);
+    return this.postsService.create(createPostDto, req.user.sub);
   }
   @Put(':id')
   update(
@@ -28,7 +35,7 @@ export class PostsController {
   }
   @Delete(':id')
   remove(@Param('id') id: string, @Request() req) {
-    return this.postsService.remove(id, req.user);
+    return this.postsService.remove(id, req.user.sub);
   }
-  
+
 }

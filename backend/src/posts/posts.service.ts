@@ -17,7 +17,7 @@ export class PostsService {
       },
     });
   }
-  async remove(id: string, user: any) {
+  async remove(id: string, sub: string) {
     const post = await this.repo.findOne({
       where: { id },
       relations: ['author'],
@@ -27,22 +27,23 @@ export class PostsService {
       throw new Error('Post not found');
     }
 
-    if (post.author.id !== user.sub) {
+    if (post.author.id !== sub) {
       throw new ForbiddenException('Not your post');
     }
     await this.repo.delete(id);
+
     return { success: true };
   }
 
-  create(data: any, user: any) {
+  create(data: Partial<Post>, sub: string) {
     return this.repo.save(
       this.repo.create({
         ...data,
-        author: { id: user.sub },
+        author: { id: sub },
       }),
     );
   }
-  async update(id: string, data: any, userId: string) {
+  async update(id: string, data: Partial<Post>, userId: string) {
     const post = await this.repo.findOne({
       where: { id },
       relations: ['author'],

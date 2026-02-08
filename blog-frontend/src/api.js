@@ -52,7 +52,10 @@ export async function updateUsername(token, username) {
     body: JSON.stringify({ username }),
   });
 
-  if (!res.ok) throw new Error("Fail to update username");
+  if (!res.ok) {
+    throw new Error("Fail to update username");
+  }
+  
   return res.json();
 }
 
@@ -70,7 +73,7 @@ export async function fetchPosts(token) {
     return [];
   }
 
-  const res = await fetch(`${API_URL}/posts`, {
+  const res = await fetch(`${API_URL}/posts/my`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -93,8 +96,11 @@ export async function createPost(token, data) {
     },
     body: JSON.stringify(data),
   });
-
-  return res.json();
+  const result = await res.json();
+  if (!res.ok) {
+    throw new Error(result.message);
+  }
+  return result;
 }
 export async function updatePost(token, id, data) {
   const res = await fetch(`${API_URL}/posts/${id}`, {

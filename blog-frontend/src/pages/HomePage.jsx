@@ -11,6 +11,7 @@ export default function HomePage() {
     if (!token) {
         return <Navigate to="/login" replace />;
     }
+    
     return (
 
         <div className="max-w-3xl mx-auto p-6">
@@ -31,6 +32,12 @@ export default function HomePage() {
                         Register
                     </Link>
                 </button>
+                <Link 
+                    to="/create" 
+                    className="text-green-600 hover:underline"
+                >
+                    Create New Post
+                </Link>
             </div>
             <h1 className="text-3xl font-bold mb-6">Posts</h1>
 

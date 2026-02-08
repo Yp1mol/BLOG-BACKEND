@@ -27,6 +27,7 @@ export class UsersService {
 
   create(data: Partial<User>) {
     const user = this.usersRepo.create(data);
+    
     return this.usersRepo.save(user);
   }
 
@@ -34,6 +35,7 @@ export class UsersService {
     const user = await this.usersRepo.findOne({ where: { id } });
     user.username = username;
     this.usersRepo.save(user);
+
     return { id: user.id, username: user.username,};
   }
   }

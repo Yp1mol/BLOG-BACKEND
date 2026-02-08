@@ -1,4 +1,5 @@
 import { NestFactory, Reflector } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { AuthGuard } from './auth/auth.guard';
 import { JwtService } from '@nestjs/jwt';
@@ -10,6 +11,7 @@ async function bootstrap() {
   const reflector = app.get(Reflector);
 
   app.useGlobalGuards(new AuthGuard(jwtService, reflector));
+  app.useGlobalPipes(new ValidationPipe());
 
   app.enableCors({
     origin: 'http://localhost:3000',

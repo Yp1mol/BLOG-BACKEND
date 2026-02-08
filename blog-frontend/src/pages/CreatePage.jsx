@@ -5,6 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function CreatePage() {
     const { token } = useAuth();
+    const [error, setError] = useState(null);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const navigate = useNavigate();
@@ -15,14 +16,24 @@ export default function CreatePage() {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await createPost({ title, content });
-        navigate("/posts");
+        setError(null);
+        try {
+            await createPost({ title, content });
+            navigate("/posts");
+        } catch (err) {
+            setError(err.message);
+        }
     };
+
 
     return (
         <div className="max-w-xl mx-auto mt-10 p-6 border rounded shadow">
             <h1 className="text-2xl font-bold mb-4">Create post</h1>
-
+            {error && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    {error}
+                </div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-4">
                 <input
                     className="w-full border p-2 rounded"

@@ -1,0 +1,42 @@
+backend/src
+├── app.controller.js
+├── app.controller.spec.js
+├── app.module.ts
+├── app.service.js
+├── auth
+│   ├── auth.controller.ts
+│   ├── auth.guard.ts
+│   ├── auth.module.ts
+│   ├── auth.service.ts
+│   ├── constants.js
+│   ├── public.decorator.ts
+│   ├── roles.decorator.ts
+│   └── roles.guard.ts
+├── common
+│   ├── interceptors
+│   │   ├── logging.interceptor.ts
+│   │   └── transform.interceptor.ts
+│   └── middleware
+│       └── logging.middleware.ts
+├── db
+│   ├── data-source.js
+│   └── migrations
+│       ├── 1762031154852-Users.js
+│       └── 1762031383645-Posts.js
+├── logging.interceptor.js
+├── logging.middleware.js
+├── main.ts
+├── posts
+│   ├── post.entity.ts
+│   ├── posts.controller.ts
+│   ├── posts.module.ts
+│   ├── posts.providers.js
+│   └── posts.service.ts
+└── users
+    ├── user.entity.ts
+    ├── users.controller.ts
+    ├── users.module.ts
+    ├── users.providers.js
+    └── users.service.ts
+
+9 directories, 31 files

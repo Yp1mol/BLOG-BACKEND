@@ -14,7 +14,6 @@ export default function LoginPage() {
     navigate("/posts");
   };
 
-
   return (
     <div className="w-full max-w-sm border p-6 rounded shadow ">
       <Link to="/register" className="border border-green-500 rounded inline-block mt-4 hover:text-green-700 text-green-500 hover:border-green-700">

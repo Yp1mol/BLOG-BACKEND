@@ -15,8 +15,9 @@ export class UsersController {
   }
   
   @Patch('me')
-  updateMe(@Req() req: any, @Body() body: { username: string }) {
-    const userId = req.user?.sub;
+  updateMe(@Req() sub: string, @Body() body: { username: string }) {
+    const userId = sub;
+    
     return this.usersService.updateUsername(userId, body.username);
   }
 
